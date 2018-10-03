@@ -1,0 +1,38 @@
+{
+    "name": "Learn by Reading",
+    "version": "0.1",
+    "description": "take a memo easily, and learn it by highlighting the words on current page",
+    "permissions": [
+        "contextMenus",
+        "storage",
+        "tabs",
+        "http://*/*",
+        "https://*/*"
+    ],
+    "background": {
+        "scripts": [ "js/WordsNote.js", "js/background.js" ]
+    },
+    "content_scripts": [
+        {
+            "matches": [ 
+                "http://*/*",
+                "https://*/*"
+            ],
+            "js": [ "js/contentscript.js" ],
+            "run_at": "document_idle"
+        }
+    ],
+    "browser_action": {
+        "default_icon": {
+            "16": "images/icon-16.png",
+            "32": "images/icon-32.png",
+            "48": "images/icon-48.png"
+        }
+    },
+    "icons": {
+        "16": "images/icon-16.png",
+        "32": "images/icon-32.png",
+        "48": "images/icon-48.png"
+    },
+    "manifest_version": 2
+}
