@@ -1,4 +1,5 @@
 chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
+    console.log("asdf");
     if (req.messageType == 'registerWord') {
         console.dir(req);
         console.log('receive tryadd message 3');

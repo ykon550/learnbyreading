@@ -22,8 +22,6 @@ const extractSentence = (str, posStart, posEnd) => {
     return str.slice(sentenceStart, sentenceEnd);
 }
 
-const words = new WordsNote();
-
 const menuId = chrome.contextMenus.create({
     title: "save '%s' to LearnByReading",
     type: "normal",
@@ -47,7 +45,7 @@ chrome.runtime.onMessage.addListener( async (req, sender, sendResponse) => {
     if (req.messageType == 'getStorage') {
         //TODO
         console.log('message received getStorage 49');
-        const memos = await words.getAll();
+        const memos = await db.words.toArray();
         const reply = {'words':memos};
         sendResponse(reply);
     }
@@ -59,11 +57,12 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
             const _word = info.selectionText.toLowerCase();
             const s = response.target;
             const _sentence = extractSentence(s.sentence, s.posStart, s.posEnd);
-            let log = {};
-            log.timestamp = new Date().toISOString();
-            log.pageurl = info.pageUrl;
-            log.sentence = _sentence;
-            words.set(_word, JSON.stringify(log));
+            let _obj = {};
+            _obj.word = _word;
+            _obj.timestamp = new Date().toISOString();
+            _obj.pageurl = info.pageUrl;
+            _obj.sentence = _sentence;
+            db.words.add(_obj);
         });
     }
 });

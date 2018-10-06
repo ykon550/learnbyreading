@@ -10,7 +10,7 @@
         "https://*/*"
     ],
     "background": {
-        "scripts": [ "js/WordsNote.js", "js/background.js" ]
+        "scripts": [ "js/dexie.min.js", "js/db.js", "js/background.js" ]
     },
     "content_scripts": [
         {

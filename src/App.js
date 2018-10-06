@@ -1,10 +1,15 @@
 /*global chrome*/
 import React, { Component } from 'react';
+import Dexie from 'dexie';
 
 class App extends Component {
-  
+  constructor(props){
+    super(props);
+    this.db = new Dexie("lbr");
+    this.db.version(1).stores({ words: "++timestamp,word,sentence,pageurl" });
+  }
   chromeFunc(){
-    chrome.storage.local.get(null, function(v) {console.log(v)});
+    this.db.words.where('word').equals('moguls').each(word => console.log(word))
   }
 
   render() {
