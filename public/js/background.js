@@ -29,24 +29,24 @@ const menuId = chrome.contextMenus.create({
     id: "Learn-By-Reading",
 });
 
-chrome.browserAction.onClicked.addListener(()=>{
-    chrome.tabs.create({"url": chrome.extension.getURL("index.html"), "selected": true}, (tab) => {
-        this.tab = tab;        
+chrome.browserAction.onClicked.addListener(() => {
+    chrome.tabs.create({ "url": chrome.extension.getURL("index.html"), "selected": true }, (tab) => {
+        this.tab = tab;
     });
 
-    chrome.tabs.onRemoved.addListener(function(tabId,removeInfo){
-        if(this.tab && this.tab.id == tabId){
+    chrome.tabs.onRemoved.addListener(function (tabId, removeInfo) {
+        if (this.tab && this.tab.id == tabId) {
             this.tab = null;
         }
     });
 });
 
-chrome.runtime.onMessage.addListener( async (req, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener(async (req, sender, sendResponse) => {
     if (req.messageType == 'getStorage') {
         //TODO
         console.log('message received getStorage 49');
         const memos = await db.words.toArray();
-        const reply = {'words':memos};
+        const reply = { 'words': memos };
         sendResponse(reply);
     }
 });
