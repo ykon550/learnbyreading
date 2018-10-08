@@ -1,37 +1,9 @@
 /*global chrome*/
 import React, { Component } from 'react';
 import Dexie from 'dexie';
+import WordList from './WordList';
 
-class WordList extends Component {
-  constructor(props) {
-    super(props);
-  }
 
-  render() {
-    const wordsArr = this.props.words;
-    const list = wordsArr.map((elem) => {
-      return (
-        <tr>
-          <td>{elem.word}</td>
-          <td>{elem.sentence}</td>
-          <td>{elem.timestamp}</td>
-          <td>{elem.pageurl}</td>
-        </tr>
-      )
-    })
-    return (
-      <table>
-        <tr>
-          <th>Word</th>
-          <th>Sentence</th>
-          <th>Timestamp</th>
-          <th>Source URL</th>
-        </tr>
-        {list}
-      </table>
-    )
-  }
-}
 
 class App extends Component {
   constructor(props) {
@@ -57,7 +29,7 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <h1 className="App-title">Learn By Reading</h1>
+          <h1 className="App-title">Learn by Reading</h1>
         </header>
         <p className="App-intro">
           This extension let you take memos for english words, and highlight it on every web page.
