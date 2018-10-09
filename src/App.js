@@ -3,7 +3,12 @@ import React, { Component } from 'react';
 import Dexie from 'dexie';
 import WordList from './WordList';
 
-
+const navStyle = {
+  color: '#e23131',
+  fontFamily: 'serif',
+  fontWeight: 'lighter',
+  fontSize: '1.5em'
+}
 
 class App extends Component {
   constructor(props) {
@@ -25,6 +30,10 @@ class App extends Component {
       });
   }
 
+  func1(term) {
+    console.log(term);
+  }
+
   render() {
     return (
       <div className="App">
@@ -34,7 +43,6 @@ class App extends Component {
         <p className="App-intro">
           This extension let you take memos for english words, and highlight it on every web page.
         </p>
-
         <WordList
           words={this.state.words}
         />

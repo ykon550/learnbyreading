@@ -1,21 +1,16 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 
 /**
  * 
  * @param {string} date
  */
-const shortenDate = (date) => {
+const formalizeDate = (date) => {
     let dt = new Date(date);
     const year = dt.getFullYear().toString();
     const month = ("0" + (dt.getMonth() + 1)).slice(-2).toString();
@@ -23,8 +18,8 @@ const shortenDate = (date) => {
     return year + month + day;
 }
 
-const sentenceFormalize = (_word, _text) => {
-    const splits = _text.split(_word);
+const formalizeSentence = (word, text) => {
+    const splits = text.split(word);
     const formalizedText = splits.map((elem, idx) => {
         if (idx === splits.length - 1) {
             return (
@@ -38,8 +33,8 @@ const sentenceFormalize = (_word, _text) => {
                     <span>
                         {elem}
                     </span>
-                    <span style={{color:"red"}}>
-                        {_word}
+                    <span style={{ color: "red" }}>
+                        {word}
                     </span>
                 </span>
             )
@@ -53,7 +48,7 @@ const sentenceFormalize = (_word, _text) => {
     )
 };
 
-const urlFormalize = (string) => {
+const formalizeUrl = (string) => {
     const splits = string.split('/');
     const shortenText = splits.slice(2, 3).join('/') + '/...';
     return (
@@ -62,16 +57,12 @@ const urlFormalize = (string) => {
 }
 
 class WordList extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         const wordsArr = this.props.words;
         const list = wordsArr.map((elem) => {
-            let displaySentence = sentenceFormalize(elem.word, elem.sentence);
-            let displayUrl = urlFormalize(elem.pageurl);
-            let displayTS = shortenDate(elem.timestamp);
+            let displaySentence = formalizeSentence(elem.word, elem.sentence);
+            let displayUrl = formalizeUrl(elem.pageurl);
+            let displayTS = formalizeDate(elem.timestamp);
             return (
                 <TableRow>
                     <TableCell>{elem.word}</TableCell>
@@ -86,13 +77,15 @@ class WordList extends Component {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <th>Word</th>
-                            <th>Sentence</th>
-                            <th>Noted at</th>
-                            <th>Source</th>
+                            <TableCell>Word</TableCell>
+                            <TableCell>Sentence</TableCell>
+                            <TableCell>Noted at</TableCell>
+                            <TableCell>Source</TableCell>
                         </TableRow>
                     </TableHead>
-                    {list}
+                    <TableBody>
+                        {list}
+                    </TableBody>
                 </Table>
             </Paper>
         )
