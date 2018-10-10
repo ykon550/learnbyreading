@@ -33,7 +33,7 @@ const formalizeSentence = (word, text) => {
                     <span>
                         {elem}
                     </span>
-                    <span style={{ color: "red" }}>
+                    <span style={{color:"red"}}>
                         {word}
                     </span>
                 </span>

@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import Dexie from 'dexie';
 import WordList from './WordList';
+import Navigation from './Navigation';
 
 const navStyle = {
   color: '#e23131',
@@ -36,16 +37,13 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">Learn by Reading</h1>
-        </header>
-        <p className="App-intro">
-          This extension let you take memos for english words, and highlight it on every web page.
-        </p>
-        <WordList
-          words={this.state.words}
-        />
+      <div >
+        <Navigation />
+        <div className="container-fluid">
+          <WordList
+            words={this.state.words}
+          />
+        </div>
       </div>
     );
   }
