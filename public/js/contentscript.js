@@ -1,5 +1,4 @@
 chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
-    console.log("asdf");
     if (req.messageType == 'registerWord') {
         const selected = window.getSelection();
         let target = {};
@@ -10,4 +9,18 @@ chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
     }
 })
 
-console.log('content script loaded.');
+const highlight = () => {
+    chrome.runtime.sendMessage({ messageType: "getWords" }, function (response) {
+        let wordsArr = [];
+        response.words.map((elem) => {
+            wordsArr.push(elem.word);
+        });
+        let allCollection = document.getElementsByTagName("*");
+        let arr = [].slice.call(allCollection)
+        var instance = new Mark(arr);
+        instance.mark(wordsArr);
+    });
+}
+
+console.log('LearnbyReading loaded.');
+highlight();

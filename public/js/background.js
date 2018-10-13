@@ -22,6 +22,11 @@ const extractSentence = (str, posStart, posEnd) => {
     return str.slice(sentenceStart, sentenceEnd);
 }
 
+let words = [];
+db.words.each((wordObj) => {
+    words.push(wordObj);
+})
+
 const menuId = chrome.contextMenus.create({
     title: "save '%s' to LearnByReading",
     type: "normal",
@@ -41,28 +46,27 @@ chrome.browserAction.onClicked.addListener(() => {
     });
 });
 
-chrome.runtime.onMessage.addListener(async (req, sender, sendResponse) => {
-    if (req.messageType == 'getStorage') {
-        //TODO
-        console.log('message received getStorage 49');
-        const memos = await db.words.toArray();
-        const reply = { 'words': memos };
-        sendResponse(reply);
+chrome.runtime.onMessage.addListener( (req, sender, sendResponse) => {
+    if (req.messageType == 'getWords') {
+        //TODO read words dynamically from DB
+        sendResponse({words:words});
     }
 });
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
     if (info.menuItemId == "Learn-By-Reading") {
         chrome.tabs.sendMessage(tab.id, { messageType: "registerWord" }, function (response) {
-            const _word = info.selectionText.toLowerCase();
-            const s = response.target;
-            const _sentence = extractSentence(s.sentence, s.posStart, s.posEnd);
-            let _obj = {};
-            _obj.word = _word;
-            _obj.timestamp = new Date().toISOString();
-            _obj.pageurl = info.pageUrl;
-            _obj.sentence = _sentence;
-            db.words.add(_obj);
+            const wordName = info.selectionText.toLowerCase();
+            const t = response.target;
+            const sentence = extractSentence(t.sentence, t.posStart, t.posEnd);
+            let wordRecord = {};
+            wordRecord.word = wordName;
+            wordRecord.timestamp = new Date().toISOString();
+            wordRecord.pageurl = info.pageUrl;
+            wordRecord.sentence = sentence;
+            db.words.add(wordRecord);
+            //TODO 
+            words.push(wordRecord);
         });
     }
 });
