@@ -19,7 +19,8 @@ class App extends Component {
     let _arr = [];
     this.db.table('words').each(word => _arr.push(word));
     this.state = {
-      words: []
+      words: [],
+      page: 'words'
     }
   }
 
@@ -31,21 +32,41 @@ class App extends Component {
       });
   }
 
+  setPage(page){
+    this.setState({page:page});
+  }
+
   func1(term) {
     console.log(term);
   }
 
   render() {
-    return (
-      <div >
-        <Navigation />
-        <div className="container-fluid">
-          <WordList
-            words={this.state.words}
-          />
-        </div>
-      </div>
-    );
+    switch (this.state.page) {
+      case 'words':
+        return (
+          <div >
+            <Navigation 
+              setPage = {(page) => this.setPage(page)}
+            />
+            <div className="container-fluid">
+              <WordList
+                words={this.state.words}
+              />
+            </div>
+          </div>
+        );
+      case 'settings':
+        return (
+          <div >
+            <Navigation 
+              setPage = {(page) => this.setPage(page)}
+            />
+            <div className="container-fluid">
+              here is settings.
+            </div>
+          </div>
+        );
+    }
   }
 }
 

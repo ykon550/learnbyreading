@@ -18,10 +18,19 @@ class Navigation extends React.Component {
 
     render() {
         return (
-            <nav className="navbar navbar-expand-lg fixed-top bg-light border-bottom border">
+            <nav className="navbar navbar-expand-lg fixed-top navbar-light bg-light border-bottom border">
                 <div className="container row">
-                    <div className="navbar-header col-6">
-                        <a className="navbar-brand" href="/" style={style}> Learn by Reading</a>
+                    <a className="navbar-brand" href="#" style={style}> Learn by Reading</a>
+
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" onClick={() => this.props.setPage('words')}>Words </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" onClick={() => this.props.setPage('settings')}>Settings</a>
+                            </li>
+                        </ul>
                     </div>
 
                 </div>
