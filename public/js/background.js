@@ -22,11 +22,6 @@ const extractSentence = (str, posStart, posEnd) => {
     return str.slice(sentenceStart, sentenceEnd);
 }
 
-let words = [];
-db.words.each((wordObj) => {
-    words.push(wordObj);
-})
-
 const menuId = chrome.contextMenus.create({
     title: "save '%s' to LearnByReading",
     type: "normal",
@@ -48,8 +43,13 @@ chrome.browserAction.onClicked.addListener(() => {
 
 chrome.runtime.onMessage.addListener( (req, sender, sendResponse) => {
     if (req.messageType == 'getWords') {
-        //TODO read words dynamically from DB
-        sendResponse({words:words});
+        let words = [];
+        db.words.each((wordObj) => {
+            words.push(wordObj);
+        }).then(() => {
+            sendResponse({words:words});
+        });
+        return true;
     }
 });
 
@@ -65,8 +65,6 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
             wordRecord.pageurl = info.pageUrl;
             wordRecord.sentence = sentence;
             db.words.add(wordRecord);
-            //TODO 
-            words.push(wordRecord);
         });
     }
 });

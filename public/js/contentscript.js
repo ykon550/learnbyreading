@@ -17,8 +17,8 @@ const highlight = () => {
         });
         let allCollection = document.getElementsByTagName("*");
         let arr = [].slice.call(allCollection)
-        var instance = new Mark(arr);
-        instance.mark(wordsArr);
+        let instance = new Mark(arr);
+        instance.mark(wordsArr, {className:"highlight-mark"});
     });
 }
 
