@@ -1,3 +1,5 @@
+let isEnabled;
+
 chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
     if (req.messageType == 'registerWord') {
         const selected = window.getSelection();
@@ -10,17 +12,26 @@ chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
 })
 
 const highlight = () => {
-    chrome.runtime.sendMessage({ messageType: "getWords" }, function (response) {
-        let wordsArr = [];
-        response.words.map((elem) => {
-            wordsArr.push(elem.word);
+    if (isEnabled) {
+        chrome.runtime.sendMessage({ messageType: "getWords" }, function (response) {
+            let wordsArr = [];
+            response.words.map((elem) => {
+                wordsArr.push(elem.word);
+            });
+            let allCollection = document.getElementsByTagName("*");
+            let arr = [].slice.call(allCollection)
+            let instance = new Mark(arr);
+            instance.mark(wordsArr, { className: "highlight-mark" });
         });
-        let allCollection = document.getElementsByTagName("*");
-        let arr = [].slice.call(allCollection)
-        let instance = new Mark(arr);
-        instance.mark(wordsArr, {className:"highlight-mark"});
-    });
+    }
 }
 
 console.log('LearnbyReading loaded.');
 highlight();
+
+chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
+    if (req.messageType == 'setState') {
+        isEnabled = req.isEnabled;
+        hightlight();
+    }
+})

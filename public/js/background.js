@@ -29,6 +29,8 @@ const menuId = chrome.contextMenus.create({
     id: "Learn-By-Reading",
 });
 
+let isEnabled = true;
+
 chrome.browserAction.onClicked.addListener(() => {
     chrome.tabs.create({ "url": chrome.extension.getURL("index.html"), "selected": true }, (tab) => {
         this.tab = tab;
