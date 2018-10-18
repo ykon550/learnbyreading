@@ -1,5 +1,3 @@
-let isEnabled;
-
 chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
     if (req.messageType == 'registerWord') {
         const selected = window.getSelection();
@@ -11,27 +9,48 @@ chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
     }
 })
 
-const highlight = () => {
-    if (isEnabled) {
-        chrome.runtime.sendMessage({ messageType: "getWords" }, function (response) {
-            let wordsArr = [];
-            response.words.map((elem) => {
-                wordsArr.push(elem.word);
-            });
-            let allCollection = document.getElementsByTagName("*");
-            let arr = [].slice.call(allCollection)
-            let instance = new Mark(arr);
-            instance.mark(wordsArr, { className: "highlight-mark" });
+const mark = () => {
+    chrome.runtime.sendMessage({ messageType: "getWords" }, function (response) {
+        let wordsArr = [];
+        response.words.map((elem) => {
+            wordsArr.push(elem.word);
         });
+        let allCollection = document.getElementsByTagName("*");
+        let arr = [].slice.call(allCollection)
+        let instance = new Mark(arr);
+        instance.mark(wordsArr, { className: "highlight-mark" });
+    });
+}
+
+// TODO refactoring
+const unmark = () => {
+    chrome.runtime.sendMessage({ messageType: "getWords" }, function (response) {
+        let wordsArr = [];
+        response.words.map((elem) => {
+            wordsArr.push(elem.word);
+        });
+        let allCollection = document.getElementsByTagName("*");
+        let arr = [].slice.call(allCollection)
+        let instance = new Mark(arr);
+        instance.unmark(wordsArr, { className: "highlight-mark" });
+    });
+}
+
+
+const markOrUnmark = (hasSetEnabled) => {
+    if (hasSetEnabled) {
+        mark();
+    } else {
+        unmark();
     }
 }
 
-console.log('LearnbyReading loaded.');
-highlight();
-
 chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
     if (req.messageType == 'setState') {
-        isEnabled = req.isEnabled;
-        hightlight();
+        markOrUnmark(req.hasSetEnabled);
+        sendResponse({ reply: "state set" })
     }
-})
+});
+
+console.log('LearnbyReading loaded.');
+mark();
