@@ -1,14 +1,3 @@
-chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
-    if (req.messageType == 'registerWord') {
-        const selected = window.getSelection();
-        let target = {};
-        target['sentence'] = selected.anchorNode.data;
-        target['posStart'] = selected.anchorOffset;
-        target['posEnd'] = selected.focusOffset;
-        sendResponse({ reply: "reply", target: target });
-    }
-})
-
 const mark = () => {
     chrome.runtime.sendMessage({ messageType: "getWords" }, function (response) {
         let wordsArr = [];
@@ -46,11 +35,30 @@ const markOrUnmark = (hasSetEnabled) => {
 }
 
 chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
-    if (req.messageType == 'setState') {
-        markOrUnmark(req.hasSetEnabled);
-        sendResponse({ reply: "state set" })
+    if (req.messageType == 'registerWord') {
+        const selected = window.getSelection();
+        let target = {};
+        target['sentence'] = selected.anchorNode.data;
+        target['posStart'] = selected.anchorOffset;
+        target['posEnd'] = selected.focusOffset;
+        sendResponse({ reply: "reply", target: target });
+    }
+})
+
+chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
+    if (req.messageType == 'propState') {
+        markOrUnmark(req.state);
+        sendResponse({ reply: "state propageted." })
     }
 });
 
-console.log('LearnbyReading loaded.');
-mark();
+const initPage = () => {
+    console.log('LearnbyReading loaded.');
+    chrome.runtime.sendMessage({ messageType: "getState" }, function (res) {
+        if(res.state) {
+            mark();
+        }
+    });
+}
+
+initPage();

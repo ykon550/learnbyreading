@@ -15,7 +15,10 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.db = new Dexie("lbr");
-    this.db.version(1).stores({ words: "++timestamp,word,sentence,pageurl" });
+    this.db.version(1).stores({
+      words: `++timestamp, word, sentence, pageurl`,
+      config: `++name, state`
+    });
     let _arr = [];
     this.db.table('words').each(word => _arr.push(word));
     this.state = {
@@ -32,8 +35,8 @@ class App extends Component {
       });
   }
 
-  setPage(page){
-    this.setState({page:page});
+  setPage(page) {
+    this.setState({ page: page });
   }
 
   func1(term) {
@@ -45,8 +48,8 @@ class App extends Component {
       case 'words':
         return (
           <div >
-            <Navigation 
-              setPage = {(page) => this.setPage(page)}
+            <Navigation
+              setPage={(page) => this.setPage(page)}
             />
             <div className="container-fluid">
               <WordList
@@ -58,8 +61,8 @@ class App extends Component {
       case 'settings':
         return (
           <div >
-            <Navigation 
-              setPage = {(page) => this.setPage(page)}
+            <Navigation
+              setPage={(page) => this.setPage(page)}
             />
             <div className="container-fluid">
               here is settings.

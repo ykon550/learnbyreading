@@ -29,7 +29,54 @@ const menuId = chrome.contextMenus.create({
     id: "Learn-By-Reading",
 });
 
-let isEnabled = true;
+const STATE = {
+    ENABLED: true,
+    DISABLED: false
+}
+let currentState;
+
+// loaded once when Chrome starts.
+const init = () => {
+    db.config.get('config')
+        .then((config) => {
+            if (config == undefined) {
+                currentState = STATE.ENABLED;
+            }
+            currentState = config.state;
+        })
+        .catch((err) => {
+            // TODO dexie doc says if no item found resolve with undefined, but err happens.
+            db.config.put({name:'config', state:true});
+            currentState = true;
+        });
+}
+init();
+
+chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
+    if (req.messageType == 'getState') {
+        sendResponse({ state: currentState });
+    }
+});
+
+chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
+    if (req.messageType == 'setState') {
+        currentState = req.hasSetEnabled;
+        db.config.update('config', { state: currentState }).then((res) => {
+            if (res) {
+                console.log("updated");
+                chrome.tabs.query({}, function(tabs) {
+                    for (var i=0; i<tabs.length; ++i) {
+                        chrome.tabs.sendMessage(tabs[i].id, { messageType: "propState", state: currentState });
+                    }
+                });
+            } else {
+                console.log("error");
+            }
+        });
+        sendResponse({reply:"setState received."})
+        return true;
+    }
+});
 
 chrome.browserAction.onClicked.addListener(() => {
     chrome.tabs.create({ "url": chrome.extension.getURL("index.html"), "selected": true }, (tab) => {
@@ -43,13 +90,13 @@ chrome.browserAction.onClicked.addListener(() => {
     });
 });
 
-chrome.runtime.onMessage.addListener( (req, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
     if (req.messageType == 'getWords') {
         let words = [];
         db.words.each((wordObj) => {
             words.push(wordObj);
         }).then(() => {
-            sendResponse({words:words});
+            sendResponse({ words: words });
         });
         return true;
     }
