@@ -16,15 +16,23 @@
 <body>
     <div id="wrapper">
         <div id="contents">
-            <div class="onoff">
-                <p class="onoff-item">On/Off</p>
-                <label class="onoff-item switch switch-green">
-                    <input type="checkbox" class="switch-input" id="stateOnOff" checked>
-                    <span class="switch-label" data-on="On" data-off="Off"></span>
-                    <span class="switch-handle"></span>
-                </label>
+            <p > Config </a>
+            <div class="toggle-switch">
+                <table>
+                    <tr>
+                        <td align="left">
+                            <p class="onoff-item1"> On/Off </p>
+                        </td>
+                        <td align="right" valign="center">
+                            <label class="switch-label">
+                                <input type="checkbox" class="switch-input" id="stateOnOff">
+                                <span class="switch-back"></span>
+                                <span class="switch-button"></span>
+                            </label>
+                        </td>
+                    </tr>
+                </table>
             </div>
-            <p id='p1'>Words Memo</p>
             <a id='wordList' href=""> Word List </a>
         </div>
         <footer id="footer">
