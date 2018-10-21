@@ -6,6 +6,7 @@
         "contextMenus",
         "storage",
         "tabs",
+        "downloads",
         "http://*/*",
         "https://*/*"
     ],

@@ -16,24 +16,43 @@
 <body>
     <div id="wrapper">
         <div id="contents">
-            <p > Config </a>
-            <div class="toggle-switch">
-                <table>
-                    <tr>
-                        <td align="left">
-                            <p class="onoff-item1"> On/Off </p>
-                        </td>
-                        <td align="right" valign="center">
-                            <label class="switch-label">
-                                <input type="checkbox" class="switch-input" id="stateOnOff">
-                                <span class="switch-back"></span>
-                                <span class="switch-button"></span>
-                            </label>
-                        </td>
-                    </tr>
-                </table>
+            <div class="subcontents">
+                <div class="config-header"> Config </div>
+                <div class="config-body">
+                    <table>
+                        <tr>
+                            <td align="left">
+                                <div>On/Off</div>
+                            </td>
+                            <td align="right">
+                                <div>
+                                    <label class="switch-label">
+                                        <input type="checkbox" class="switch-input" id="stateOnOff">
+                                        <span class="switch-back"></span>
+                                        <span class="switch-button"></span>
+                                    </label>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                                <td align="left">
+                                    <div>Data Export</div>
+                                </td>
+                                <td align="right">
+                                    <div>
+                                        <button id="exportButton">Export
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                    </table>
+                </div>
             </div>
-            <a id='wordList' href=""> Word List </a>
+            <div class="subcontents">
+                <div class="config-header">
+                    <a id='wordList' href=""> Word List </a>
+                </div>
+            </div>
         </div>
         <footer id="footer">
             © 2018 Learn by Reading
