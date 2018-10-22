@@ -11,7 +11,7 @@
         "https://*/*"
     ],
     "background": {
-        "scripts": [ "js/dexie.min.js", "js/db.js", "js/background.js" ],
+        "scripts": [ "lib/dexie.min.js", "js/db.js", "js/background.js" ],
         "persistent": false
     },
     "content_scripts": [
@@ -21,7 +21,7 @@
                 "https://*/*"
             ],
             "css":["css/contents.css"],
-            "js": [ "js/dexie.min.js", "js/db.js", "js/mark.min.js","js/contentscript.js" ],
+            "js": [ "lib/dexie.min.js", "js/db.js", "lib/mark.min.js","js/contentscript.js" ],
             "run_at": "document_idle"
         }
     ],
