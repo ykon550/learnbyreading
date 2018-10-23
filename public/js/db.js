@@ -2,6 +2,6 @@
 const db = new Dexie('lbr');
 
 db.version(1).stores({
-    words: `++timestamp, word, sentence, pageurl`,
-    config: `++name, state`
+    words: `++id, timestamp, word, sentence, pageurl, storedlevel`,
+    config: `name, state`
 });

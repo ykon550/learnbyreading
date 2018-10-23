@@ -113,6 +113,7 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
             wordRecord.timestamp = new Date().toISOString();
             wordRecord.pageurl = info.pageUrl;
             wordRecord.sentence = sentence;
+            wordRecord.storedlevel = 0;
             db.words.add(wordRecord);
         });
     }
