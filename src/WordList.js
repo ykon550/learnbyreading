@@ -5,6 +5,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import EditDialog from './EditDialog';
 
 /**
  * 
@@ -59,16 +60,23 @@ const formalizeUrl = (string) => {
 class WordList extends Component {
     render() {
         const wordsArr = this.props.words;
-        const list = wordsArr.map((elem) => {
+        const list = wordsArr.map((elem, idx) => {
             let displaySentence = formalizeSentence(elem.word, elem.sentence);
             let displayUrl = formalizeUrl(elem.pageurl);
             let displayTS = formalizeDate(elem.timestamp);
             return (
-                <TableRow>
+                <TableRow key={elem.id}>
                     <TableCell>{elem.word}</TableCell>
                     <TableCell>{displaySentence}</TableCell>
                     <TableCell>{displayTS}</TableCell>
                     <TableCell>{displayUrl}</TableCell>
+                    <TableCell>
+                        <EditDialog
+                            item={elem}
+                            handleSave={(item) => this.props.onUpdate(item)}
+                        >
+                        </EditDialog>
+                    </TableCell>
                 </TableRow>
             )
         })
@@ -81,6 +89,7 @@ class WordList extends Component {
                             <TableCell>Sentence</TableCell>
                             <TableCell>Noted at</TableCell>
                             <TableCell>Source</TableCell>
+                            <TableCell>Edit</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

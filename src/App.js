@@ -35,6 +35,22 @@ class App extends Component {
       });
   }
 
+  updateItem(item) {
+    this.db.words.update(item.id, item).then((updated) => {
+      if (updated) {
+        //TODO effecient update words state
+        this.db.table('words')
+          .toArray()
+          .then((words) => {
+            this.setState({ words });
+          });
+        console.log("item updated");
+      } else {
+        console.log("nothing updated")
+      }
+    })
+  }
+
   setPage(page) {
     this.setState({ page: page });
   }
@@ -54,6 +70,7 @@ class App extends Component {
             <div className="container-fluid">
               <WordList
                 words={this.state.words}
+                onUpdate={(item) => this.updateItem(item)}
               />
             </div>
           </div>
