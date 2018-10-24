@@ -2,6 +2,10 @@
 a Chrome Extension for English Leraners, taking easily word memo with sentence, highlighting it on every page.
 
 ## Images
+![Register](https://github.com/ya9do/learnbyreading/blob/images/register.png)
+![Highlight](https://github.com/ya9do/learnbyreading/blob/images/highlight.png)
+![Brushup](https://github.com/ya9do/learnbyreading/blob/images/brushup.png)
+![Config](https://github.com/ya9do/learnbyreading/blob/images/config.png)
 
 ## How to Use
 1. Take a memo fot you want to learn from context menu.
