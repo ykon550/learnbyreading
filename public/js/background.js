@@ -27,6 +27,8 @@ const menuId = chrome.contextMenus.create({
     type: "normal",
     contexts: ["selection"],
     id: "Learn-By-Reading",
+}, () => {
+    console.log(chrome.runtime.lastError);
 });
 
 const STATE = {

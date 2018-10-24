@@ -5,6 +5,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import editIcon from './images/edit_icon.png';
 
 export default class EditDialog extends Component {
     constructor(props) {
@@ -43,7 +44,9 @@ export default class EditDialog extends Component {
     render() {
         return (
             <div>
-                <Button onClick={this.handleClickOpen} color="default" >Edit</Button>
+                <Button onClick={this.handleClickOpen} color="default" >
+                    <img src={editIcon} alt="Edit" />
+                </Button>
                 <Dialog
                     open={this.state.open}
                     onClose={this.onCancel}
