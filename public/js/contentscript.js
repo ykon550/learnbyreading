@@ -1,8 +1,10 @@
 const mark = () => {
     chrome.runtime.sendMessage({ messageType: "getWords" }, function (response) {
         let wordsArr = [];
-        response.words.map((elem) => {
-            wordsArr.push(elem.word);
+        response.words.map((obj) => {
+            if (obj.storedlevel === 0) {
+                wordsArr.push(obj.word);
+            }
         });
         let allCollection = document.getElementsByTagName("*");
         let arr = [].slice.call(allCollection)
@@ -55,7 +57,7 @@ chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
 const initPage = () => {
     console.log('LearnbyReading loaded.');
     chrome.runtime.sendMessage({ messageType: "getState" }, function (res) {
-        if(res.state) {
+        if (res.state) {
             mark();
         }
     });
