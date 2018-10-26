@@ -6,6 +6,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import EditDialog from './EditDialog';
+import {LEVEL} from './constant';
 
 /**
  * 
@@ -64,6 +65,7 @@ class WordList extends Component {
             let displaySentence = formalizeSentence(elem.word, elem.sentence);
             let displayUrl = formalizeUrl(elem.pageurl);
             let displayTS = formalizeDate(elem.timestamp);
+            if(elem.storedlevel === LEVEL.ARCHIVED) return;
             return (
                 <TableRow key={elem.id}>
                     <TableCell>{elem.word}</TableCell>
@@ -73,7 +75,7 @@ class WordList extends Component {
                     <TableCell>
                         <EditDialog
                             item={elem}
-                            handleSave={(item) => this.props.onUpdate(item)}
+                            handleUpdate={(item) => this.props.handleUpdate(item)}
                         >
                         </EditDialog>
                     </TableCell>

@@ -70,7 +70,7 @@ class App extends Component {
             <div className="container-fluid">
               <WordList
                 words={this.state.words}
-                onUpdate={(item) => this.updateItem(item)}
+                handleUpdate={(item) => this.updateItem(item)}
               />
             </div>
           </div>

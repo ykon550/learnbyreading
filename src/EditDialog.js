@@ -6,6 +6,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import editIcon from './images/edit_icon.png';
+import {LEVEL} from './constant';
+
 
 export default class EditDialog extends Component {
     constructor(props) {
@@ -37,8 +39,16 @@ export default class EditDialog extends Component {
     }
 
     onSave = () => {
-        this.props.handleSave(this.state.item);
+        this.props.handleUpdate(this.state.item);
         this.setState({ open: false });
+    }
+
+    onArchive = () => {
+        this.setState((prevState) => {
+            prevState.item.storedlevel = LEVEL.ARCHIVED;
+            return { item: prevState.item, open: false }
+        })
+        this.props.handleUpdate(this.state.item);
     }
 
     render() {
@@ -81,6 +91,12 @@ export default class EditDialog extends Component {
                         </Button>
                         <Button onClick={this.onSave} color="primary">
                             Save
+                        </Button>
+                    </DialogActions>
+                    <DialogTitle >Archive Record</DialogTitle>
+                    <DialogActions>
+                        <Button onClick={this.onArchive} color="secondary">
+                            Archive
                         </Button>
                     </DialogActions>
                 </Dialog>
