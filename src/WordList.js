@@ -6,7 +6,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import EditDialog from './EditDialog';
-import {LEVEL} from './constant';
+import { LEVEL } from './constant';
+// import RadioButtons from './RadioButtons';
+import ToggleButtons from './ToggleButtons';
 
 /**
  * 
@@ -35,7 +37,7 @@ const formalizeSentence = (word, text) => {
                     <span>
                         {elem}
                     </span>
-                    <span style={{color:"red"}}>
+                    <span style={{ color: "red" }}>
                         {word}
                     </span>
                 </span>
@@ -59,13 +61,21 @@ const formalizeUrl = (string) => {
 }
 
 class WordList extends Component {
+    state = {
+        level: LEVEL.TOP
+    }
+
+    handleLevel = (event, level) => {
+        this.setState({level:level})
+    }
+
     render() {
         const wordsArr = this.props.words;
         const list = wordsArr.map((elem, idx) => {
             let displaySentence = formalizeSentence(elem.word, elem.sentence);
             let displayUrl = formalizeUrl(elem.pageurl);
             let displayTS = formalizeDate(elem.timestamp);
-            if(elem.storedlevel === LEVEL.ARCHIVED) return;
+            if (elem.storedlevel !== this.state.level) return;
             return (
                 <TableRow key={elem.id}>
                     <TableCell>{elem.word}</TableCell>
@@ -83,22 +93,28 @@ class WordList extends Component {
             )
         })
         return (
-            <Paper>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Word</TableCell>
-                            <TableCell>Sentence</TableCell>
-                            <TableCell>Noted at</TableCell>
-                            <TableCell>Source</TableCell>
-                            <TableCell>Edit</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {list}
-                    </TableBody>
-                </Table>
-            </Paper>
+            <div>
+                <ToggleButtons
+                    level={this.state.level}
+                    handleLevel={(e, level) => this.handleLevel(e, level)}
+                />
+                <Paper>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Word</TableCell>
+                                <TableCell>Sentence</TableCell>
+                                <TableCell>Noted at</TableCell>
+                                <TableCell>Source</TableCell>
+                                <TableCell>Edit</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {list}
+                        </TableBody>
+                    </Table>
+                </Paper>
+            </div>
         )
     }
 }

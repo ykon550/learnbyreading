@@ -6,7 +6,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import editIcon from './images/edit_icon.png';
-import {LEVEL} from './constant';
+import { LEVEL } from './constant';
 
 
 export default class EditDialog extends Component {
@@ -43,15 +43,49 @@ export default class EditDialog extends Component {
         this.setState({ open: false });
     }
 
-    onArchive = () => {
+    updateLevel = (level) => {
         this.setState((prevState) => {
-            prevState.item.storedlevel = LEVEL.ARCHIVED;
+            prevState.item.storedlevel = level;
             return { item: prevState.item, open: false }
         })
-        this.props.handleUpdate(this.state.item);
+        this.props.handleUpdate(this.state.item);        
+    }
+
+    onArchive = () => {
+        this.updateLevel(LEVEL.ARCHIVED);
+    }
+    onRestore = () => {
+        this.updateLevel(LEVEL.TOP);
+    }
+
+    archiveOrRestore = (item) => {
+        if (item.storedlevel === LEVEL.TOP) {
+            return (
+                <div>
+                    <DialogTitle >Archive Record</DialogTitle>
+                    <DialogActions>
+                        <Button onClick={this.onArchive} color="secondary">
+                            Archive
+                        </Button>
+                    </DialogActions>
+                </div>
+            )
+        } else {
+            return (
+                <div>
+                    <DialogTitle >Restore Record</DialogTitle>
+                    <DialogActions>
+                        <Button onClick={this.onRestore} color="primary">
+                            Restore
+                        </Button>
+                    </DialogActions>
+                </div>
+            )
+        }
     }
 
     render() {
+        const Dialog2 = this.archiveOrRestore(this.state.item);
         return (
             <div>
                 <Button onClick={this.handleClickOpen} color="default" >
@@ -93,12 +127,7 @@ export default class EditDialog extends Component {
                             Save
                         </Button>
                     </DialogActions>
-                    <DialogTitle >Archive Record</DialogTitle>
-                    <DialogActions>
-                        <Button onClick={this.onArchive} color="secondary">
-                            Archive
-                        </Button>
-                    </DialogActions>
+                    {Dialog2}
                 </Dialog>
             </div>
         );
