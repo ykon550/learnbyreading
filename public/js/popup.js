@@ -7,7 +7,8 @@ const json2csv = (json) => {
     const header = keys.map((key) => '"' + key + '"').join(', ') + '\n';
     const body =  json.map(record => {
         return keys.map((key) => {
-            return '"' + record[key] + '"';
+            const escaped = record[key].replace(/"/gi, '""');
+            return '"' + escaped + '"';
         }).join(', ');
     }).join('\n');
     return header + body;
